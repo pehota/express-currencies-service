@@ -10,7 +10,7 @@ interface ICurrency {
 
 interface ICurrencies {
   date: string;
-  rates: ICurrency[]
+  rates: ICurrency[];
 }
 
 const loadCurrenciesList = async (): Promise<Either<string, ICurrencies>> => {
@@ -27,11 +27,13 @@ const loadCurrenciesList = async (): Promise<Either<string, ICurrencies>> => {
 
     const currencies = {
       date,
-      rates: signs.map((sign, index): ICurrency => ({
-        sign,
-        rate: parseFloat(rates[index])
-      }))
-    }
+      rates: signs.map(
+        (sign, index): ICurrency => ({
+          sign,
+          rate: parseFloat(rates[index]),
+        }),
+      ),
+    };
     return Either.right(currencies);
   } catch (e) {
     return Either.left(e.message());
@@ -43,13 +45,14 @@ const loadCurrenciesListWithCache = memoize(loadCurrenciesList);
 const index = async (req: Request, res: Response) => {
   const currencies = await loadCurrenciesList();
   const [status, msg] = currencies.caseOf({
-    right: (currencies: ICurrencies) => [200, JSON.stringify(currencies, null, 3)],
-    left: (error: string) => [500, JSON.stringify({ error }, null, 3)]
-  })
-  console.debug('=========> currencies', status, msg);
+    right: (currencies: ICurrencies) => [
+      200,
+      JSON.stringify(currencies, null, 3),
+    ],
+    left: (error: string) => [500, JSON.stringify({error}, null, 3)],
+  });
   res.setHeader('Content-Type', 'application/json');
-  // res.status(status).json(msg);
-  res.status(200).send(msg);
+  res.status(status as number).send(msg);
 };
 
 const currency = async (req: Request, res: Response) => {
@@ -57,15 +60,23 @@ const currency = async (req: Request, res: Response) => {
   const currencies = await loadCurrenciesList();
   currencies.caseOf({
     right: (currencies: ICurrencies) => {
-      const currency = requestedCurrency.map(requestedCurrencySign => currencies.rates.find(({ sign }) => sign === requestedCurrencySign)).caseOf({
-        just: currency => res.status(200).send(JSON.stringify(currency, null, 3)),
-        nothing: () => res.status(404).send(JSON.stringify({ error: 'Currency not found' }, null, 3))
-      });
+      const currency = requestedCurrency
+        .map(requestedCurrencySign =>
+          currencies.rates.find(({sign}) => sign === requestedCurrencySign),
+        )
+        .caseOf({
+          just: currency =>
+            res.status(200).send(JSON.stringify(currency, null, 3)),
+          nothing: () =>
+            res
+              .status(404)
+              .send(JSON.stringify({error: 'Currency not found'}, null, 3)),
+        });
     },
     left: (error: string) => {
-      res.status(500).send(JSON.stringify({ error }, null, 3));
-    }
-  })
+      res.status(500).send(JSON.stringify({error}, null, 3));
+    },
+  });
 };
 
 export default {
