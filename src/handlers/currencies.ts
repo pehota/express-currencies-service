@@ -28,7 +28,7 @@ const loadCurrenciesList = async (): Promise<Either<string, ICurrencies>> => {
     const currencies = {
       date,
       rates: signs.map(
-        (sign, index): ICurrency => ({
+        (sign: string, index: number): ICurrency => ({
           sign,
           rate: parseFloat(rates[index]),
         }),
@@ -61,12 +61,12 @@ const currency = async (req: Request, res: Response) => {
   currencies.caseOf({
     right: (currencies: ICurrencies) => {
       const currency = requestedCurrency
-        .map(requestedCurrencySign =>
+        .map((requestedCurrencySign: string) =>
           currencies.rates.find(({sign}) => sign === requestedCurrencySign),
         )
         .caseOf({
-          just: currency =>
-            res.status(200).send(JSON.stringify(currency, null, 3)),
+          just: (currency: ICurrency) =>
+            res.status(200).send(JSON.stringify({ date: currencies.date, ...currency }, null, 3)),
           nothing: () =>
             res
               .status(404)
