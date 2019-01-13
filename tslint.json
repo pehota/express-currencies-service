@@ -1,0 +1,11 @@
+{
+    "extends": ["tslint:latest", "dtslint/dt.json", "tslint-config-prettier"],
+    "rules": {
+        "interface-name": false,
+        "no-empty-interface": false,
+        "no-namespace": false,
+        "no-reference-import": false,
+        "no-var-keyword": false,
+        "strict-export-declare-modifiers": false
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Node server for microservices",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "nodemon -x ts-node index.ts",
+    "lint": "tslint --project tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "node",
+    "microservices",
+    "server",
+    "express"
+  ],
+  "author": "Dimitar Apostolov <d.apostolov@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "tsmonad": "^0.8.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.0",
+    "@types/express": "^4.16.0",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/node": "^10.12.18",
+    "dotenv": "^6.2.0",
+    "dtslint": "^0.4.2",
+    "nodemon": "^1.18.9",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.2"
+  }
+}
