@@ -10,8 +10,6 @@ interface AppConfig {
   jwt_secret: Maybe<string>;
 }
 
-export interface Authorized {}
-
 export const defaultConfig: AppConfig = {
   port: 3000,
   jwt_secret: Maybe.nothing(),
