@@ -1,15 +1,21 @@
 A currencies exchange rate service
 
 ## Installing the app
-
 - NPM - `npm install`
 - yarn - `yarn install`
 
-## Running the app
-
-- Copy/rename `.env.example` to .env
+## Running the app locally
+- Copy/rename `.env.example` to `.env`
 - NPM - `npm start`
 - yarn - `yarn start`
+- Make requests to `http://localhost:3000`
+
+## Running the app in a Docker container
+- [Install Docker](https://www.docker.com/get-started) if not yet installed
+- Copy/rename `.env.example` to `.env`
+- Run `docker build -t pehota/express-currencies-service` to build the Docker image
+- Run `docker run -p 8080:8080 -d pehota/express-currencies-service` to run app in a docker container
+- Make requests to `http://localhost:8080`
 
 Using [Postman](https://www.getpostman.com/) one can make requests to the following endpoints:
 
