@@ -13,7 +13,6 @@ const auth = (secret: any) => (
 
   Maybe.sequence<string | string[]>({token, secret}).caseOf({
     just: ({token, secret}) => {
-      console.debug('==============> yiss!', {token, secret});
       next();
     },
     nothing: () => {
